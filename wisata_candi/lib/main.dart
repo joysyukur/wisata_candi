@@ -1,153 +1,225 @@
-import 'package:flutter/material.dart';
-// import 'package:wisata_candi/data/candi_data.dart';
-// import 'package:wisata_candi/screens/detail_screen.dart';
-import 'package:wisata_candi/widgets/profile_file_item.dart';
+  import 'package:flutter/material.dart';
+  import 'package:wisata_candi/screens/favorite_screen.dart';
+  import 'package:wisata_candi/screens/home_screen.dart';
+  import 'package:wisata_candi/screens/search_screen.dart';
+  import 'package:wisata_candi/screens/profile_screen.dart';
+  import 'package:wisata_candi/screens/sign_up_screen.dart';
+  import 'package:wisata_candi/screens/sign_in_screen.dart';
+  import 'package:wisata_candi/data/candi_data.dart';
+  import 'package:wisata_candi/screens/detail_screen.dart';
+  import 'widgets/profile_info_item.dart';
 
-void main() {
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  void main() {
+    runApp(const MyApp());
+  }
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
+    class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+    // This widget is the root of your application.
+    @override
+    Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Wisata Candi',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: ProfileScreen(),
-      // home: DetailScreen(candi: candiList[0]),
+    debugShowCheckedModeBanner: false,
+    title: 'Wisata Candi',
+    theme: ThemeData(
+    appBarTheme: const AppBarTheme(
+    iconTheme: IconThemeData(color: Colors.deepPurple),
+    titleTextStyle: TextStyle(
+    color: Colors.deepPurple,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    colorScheme:
+    ColorScheme.fromSeed(seedColor: Colors.deepPurple).copyWith(
+    primary: Colors.deepPurple,
+    surface: Colors.deepPurple[50],
+    ),
+    useMaterial3: true,
+    ),
+    initialRoute: '/',
+    routes: {
+    '/homescreen': (context) => const MainScreen(),
+    '/signin': (context) => const SignInScreen(),
+    '/signup': (context) => const SignUpScreen(),
+    }
+    );
+    }
+    }
+
+    class MainScreen extends StatefulWidget {
+    const MainScreen({super.key});
+
+    @override
+    State<MainScreen> createState() => _MainScreenState();
+    }
+
+    class _MainScreenState extends State<MainScreen> {
+    // TODO: 1. Deklarasi variabel
+    int _currentIndex = 0;
+    final List<Widget> _children = [
+    HomeScreen(),
+    SearchScreen(),
+    FavoriteScreen(),
+    SignUpScreen(),
+    SignInScreen(),
+    ProfileScreen(),
+    ];
+
+    @override
+    Widget build(BuildContext context) {
+    return Scaffold(
+    //   TODO: 2. Buat properti body berupa widget yang ditampilkan
+    body: _children[
+    _currentIndex
+    ],
+    //   TODO: 3. Buat properti bottomNavigationBar dengan nilai Theme
+    bottomNavigationBar: Theme(
+    //   TODO: 4. Buat data dan child dari Theme
+    data: Theme.of(context).copyWith(
+    canvasColor: Colors.deepPurple[50],
+    ),
+    child: BottomNavigationBar(
+    currentIndex: _currentIndex,
+    onTap: (index) {
+    setState(() {
+    _currentIndex = index;
+    });
+    },
+    items: const [
+    BottomNavigationBarItem(icon:
+    Icon(Icons.home,
+    color: Colors.deepPurple
+    ),
+    label: 'Home'
+    ),
+    BottomNavigationBarItem(icon:
+    Icon(Icons.search,
+    color: Colors.deepPurple
+    ),
+    label: 'Search'
+    ),
+    BottomNavigationBarItem(icon:
+    Icon(Icons.favorite,
+    color: Colors.deepPurple
+    ),
+    label: 'Favorite'
+    ),
+    BottomNavigationBarItem(icon:
+    Icon(Icons.person,
+    color: Colors.deepPurple
+    ),
+    label: 'Profile'
+    ),
+    ],
+    selectedItemColor: Colors.deepPurple,
+    unselectedItemColor: Colors.deepPurple[100],
+    showUnselectedLabels: true,
+    ),
+    ),
+    );
+    }
+    }
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Wisata Candi',
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            iconTheme: IconThemeData(color: Colors.deepPurple),
+            titleTextStyle: TextStyle(
+              color: Colors.deepPurple,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          colorScheme:
+          ColorScheme.fromSeed(seedColor: Colors.deepPurple).copyWith(
+            primary: Colors.deepPurple,
+            surface: Colors.deepPurple[50],
+          ),
+          useMaterial3: true,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/homescreen': (context) => const MainScreen(),
+          '/signin': (context) => const SignInScreen(),
+          '/signup': (context) => const SignUpScreen(),
+        }
     );
   }
 }
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  //   TODO 1 : Deklarasi variabel yang dibutuhkan
-  bool isSignedIn = false;
-  String fullName = '';
-  String userName = '';
-  int favoriteCandiCount = 0;
-
-  // TODO 5. Implementasi fungsi signIn
-  void signIn() {
-    setState(() {
-      isSignedIn = !isSignedIn;
-    });
-  }
-
-  // TODO 6. Implementasi fungsi signOut
-  void signOut() {
-    setState(() {
-      isSignedIn = !isSignedIn;
-    });
-  }
+class _MainScreenState extends State<MainScreen> {
+  // TODO: 1. Deklarasi variabel
+  int _currentIndex = 0;
+  final List<Widget> _children = [
+    HomeScreen(),
+    SearchScreen(),
+    FavoriteScreen(),
+    SignUpScreen(),
+    SignInScreen(),
+    ProfileScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            height: 200,
-            width: double.infinity,
-            color: Colors.deepPurple,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                //   TODO 2 : Buat bagian ProfileHeader yang berisi gambar profile
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 200 - 50),
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.deepPurple,
-                              width: 2,
-                            ),
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundImage: AssetImage(
-                              'assets/placeholder_image.png',
-                            ),
-                          ),
-                        ),
-                        if (isSignedIn)
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.camera_alt,
-                              color: Colors.deepPurple[50],
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-                //   TODO 3 : Buat bagian ProfileInfor yang berisi info profile
-                SizedBox(height: 20),
-                Divider(color: Colors.deepPurple[100]),
-                SizedBox(height: 4),
-                ProfileInfoItem(
-                  icon: Icons.lock,
-                  iconColor: Colors.amber,
-                  label: 'Pengguna',
-                  value: fullName,
-                  showEditIcon: isSignedIn,
-                  onEditPressed: () {},
-                ),
-                SizedBox(height: 4),
-                Divider(color: Colors.deepPurple[100]),
-                SizedBox(height: 4),
-                ProfileInfoItem(
-                  icon: Icons.person,
-                  label: 'Nama',
-                  value: userName,
-                  showEditIcon: isSignedIn,
-                  onEditPressed: () {
-                    debugPrint('Icon edit ditekan ...');
-                  },
-                  iconColor: Colors.blue,
-                ),
-                SizedBox(height: 4),
-                Divider(color: Colors.deepPurple[100]),
-                SizedBox(height: 4),
-                ProfileInfoItem(
-                  icon: Icons.favorite,
-                  label: 'Favorit',
-                  value: favoriteCandiCount > 0 ? '$favoriteCandiCount' : '',
-                  iconColor: Colors.red,
-                ),
-                //   TODO 4 : Buat bagian ProfileActions yang berisi TextButton sign in/out
-                SizedBox(height: 4),
-                Divider(color: Colors.deepPurple[100]),
-                SizedBox(height: 4),
-                isSignedIn
-                    ? TextButton(onPressed: signOut, child: Text('Sign Out'))
-                    : TextButton(onPressed: signIn, child: Text('Sign In')),
-              ],
+      //   TODO: 2. Buat properti body berupa widget yang ditampilkan
+      body: _children[
+      _currentIndex
+      ],
+      //   TODO: 3. Buat properti bottomNavigationBar dengan nilai Theme
+      bottomNavigationBar: Theme(
+        //   TODO: 4. Buat data dan child dari Theme
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.deepPurple[50],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(icon:
+            Icon(Icons.home,
+                color: Colors.deepPurple
             ),
-          ),
-        ],
+                label: 'Home'
+            ),
+            BottomNavigationBarItem(icon:
+            Icon(Icons.search,
+                color: Colors.deepPurple
+            ),
+                label: 'Search'
+            ),
+            BottomNavigationBarItem(icon:
+            Icon(Icons.favorite,
+                color: Colors.deepPurple
+            ),
+                label: 'Favorite'
+            ),
+            BottomNavigationBarItem(icon:
+            Icon(Icons.person,
+                color: Colors.deepPurple
+            ),
+                label: 'Profile'
+            ),
+          ],
+          selectedItemColor: Colors.deepPurple,
+          unselectedItemColor: Colors.deepPurple[100],
+          showUnselectedLabels: true,
+        ),
       ),
     );
   }
